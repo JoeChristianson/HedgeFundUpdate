@@ -32,7 +32,7 @@ export function ContextProvider({children}){
 
 
     // For API_Keys
-    const [oddsAPIKey,setOddsAPIKey] = useState(null)
+    const [oddsAPIKey,setOddsAPIKey] = useState(localStorage.getItem("oddsAPIKey2022"))
 
     const [oddsData,setOddsData]=useState(null)
     const [liveData,setLiveData] = useState(null)
@@ -40,12 +40,13 @@ export function ContextProvider({children}){
 
     const refreshOdds = async (passedLeague)=>{
         const league = passedLeague||currentLeague
-        // const league = currentLeague
         const oddsData = await getOddsAPIData(oddsAPIKey,league.oddsAPIKey)
         saveClosingOdds(oddsData)
         const newBookies = getBookies(oddsData)
         setBookies(newBookies)
-        setCurrentBookie(newBookies[0])
+        if(!newBookies.find(bookie=>bookie.value===currentBookie?.value)){
+            setCurrentBookie(newBookies[0])
+        }
         setOddsData(oddsData)
         const liveData = await getLiveData(currentLeague.espnSport,currentLeague.espnLeague)
         setLiveData(liveData)

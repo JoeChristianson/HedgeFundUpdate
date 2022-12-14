@@ -7,7 +7,6 @@ export const getOddsAPIData = async (API_KEY,sport)=>{
     const route = getOddsAPIRoute(sport,API_KEY)
     const resp = await fetch(route);
     const data = await resp.json()
-
     return data
 }
 
