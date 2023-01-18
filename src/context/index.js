@@ -18,7 +18,7 @@ export function ContextProvider({children}){
     {value:"nhl",oddsAPIKey:"icehockey_nhl",text:"NHL",espnSport:"hockey",espnLeague:"nhl"}
 ]
 
-    const storedLeague = localStorage.getItem("hf_league")
+    const storedLeague = localStorage.getItem("hf_league")||"nfl"
    const [currentLeague,setCurrentLeague] = useState(leagues.find(l=>l.value===storedLeague))
 
 // For Bookies
@@ -47,8 +47,8 @@ export function ContextProvider({children}){
     const [lastRefreshed,setlastRefreshed] = useState(null)
 
     const refreshOdds = async (passedLeague)=>{
-        const league = passedLeague||currentLeague
-        const oddsData = await getOddsAPIData(oddsAPIKey,league.oddsAPIKey)
+        const league = passedLeague||currentLeague||leagues[0]
+        const oddsData = await getOddsAPIData(oddsAPIKey,league?.oddsAPIKey)
         saveClosingOdds(oddsData)
         const newBookies = getBookies(oddsData)
         setBookies(newBookies)
@@ -61,6 +61,9 @@ export function ContextProvider({children}){
     }
 
     useEffect(()=>{
+        if(!currentLeague){
+            return
+        }
         localStorage.setItem("hf_league",currentLeague.value)
     },[currentLeague])
 
