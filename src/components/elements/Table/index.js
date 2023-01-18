@@ -45,7 +45,7 @@ const OddsTable = ({testing,data})=>{
         </thead>
         <tbody>
         {tableData.map((row,key)=>{
-            console.log("row",row)
+
             return(
                 <tr key={key}>
                 <td>{row.startTime}<br></br>{row.broadcast}</td>
@@ -57,17 +57,17 @@ const OddsTable = ({testing,data})=>{
                 <td>{row.period}</td>
                 <td>{row.clock}</td>
                 <td>{row.situation}</td>
-                <td>{row.awayScore} - {row.homeScore}</td>
-                <td>{row.awayScore!==undefined?(parseInt(row.awayScore)+parseInt(row.homeScore)):"-"}</td>
-                <td>{row.awaySpread}<br></br>{row.homeSpread}</td>
-                <td>{row.closing_awaySpread}<br></br>{row.closing_homeSpread}</td>
-                <td>{row.closing_awaySpread-row.awaySpread}<br></br>{row.closing_homeSpread-row.homeSpread}</td>
-                <td>{row.awayLine}<br></br>{row.homeLine}</td>
-                <td>{row.closing_awayLine}<br></br>{row.closing_homeLine}</td>
-                <td>{row.closing_awayLine-row.awayLine}<br></br>{row.closing_homeLine-row.homeLine}</td>
-                <td>{row.overUnder}</td>
-                <td>{row.closing_overUnder}</td>
-                <td>{row.closing_overUnder-row.overUnder}</td>
+                <td className="center">{row.awayScore} - {row.homeScore}</td>
+                <td className="center">{row.awayScore!==undefined?(parseInt(row.awayScore)+parseInt(row.homeScore)):"-"}</td>
+                <td className="border-left center">{row.awaySpread}<br></br>{row.homeSpread}</td>
+                <td className="center">{row.closing_awaySpread}<br></br>{row.closing_homeSpread}</td>
+                <td className="center">{row.closing_awaySpread-row.awaySpread}<br></br>{row.closing_homeSpread-row.homeSpread}</td>
+                <td className="border-left center">{row.awayLine}<br></br>{row.homeLine}</td>
+                <td className="center">{row.closing_awayLine}<br></br>{row.closing_homeLine}</td>
+                <td className="center">{row.closing_awayLine-row.awayLine}<br></br>{row.closing_homeLine-row.homeLine}</td>
+                <td className="border-left center">{row.overUnder}</td>
+                <td className="center">{row.closing_overUnder}</td>
+                <td className="center">{row.closing_overUnder-row.overUnder}</td>
                 </tr>
             )}
         )}

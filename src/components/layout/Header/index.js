@@ -1,13 +1,9 @@
 import DropDownsCont from "../../elements/DropDownsCont"
 import Button from "../../elements/Button"
 import "./index.css"
-import { getOddsAPIData } from "../../../utils/oddsAPI"
 import { useContext, useEffect, useState } from "react"
 import { Context } from "../../../context"
-import {getBookies} from "../../../utils/getBookies"
-import {getLiveData} from "../../../utils/getLiveData"
 import {convertSeconds,convertDate} from "../../../utils/convertDate"
-import { countdown } from "../../../utils/countdown"
 
 function Header(){
     const {refreshOdds,setOddsAPIKey,setLiveData,oddsAPIKey,currentLeague,setOddsData,setBookies,bookies,currentBookie,setCurrentBookie,currentInterval,lastRefreshed,setlastRefreshed} = useContext(Context)

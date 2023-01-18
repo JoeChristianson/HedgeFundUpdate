@@ -14,12 +14,12 @@ export const convertTableData = (oddsData,bookie,liveData)=>{
         game = {...game,...specificOdds}
         game.awayLogo = logos?.[game.sport_title]?.[game.away_team]
         game.homeLogo = logos?.[game.sport_title]?.[game.home_team]
-        console.log(game)
+
         if(liveData){
 
             liveData.events.forEach(liveGame=>{
                 if (liveGame.name.includes(game.home_team) && liveGame.name.includes(game.away_team)) {
-                    console.log(liveGame)
+
                     const homeTeam = liveGame.competitions[0].competitors.find(c => c.homeAway === "home")
                     const awayTeam = liveGame.competitions[0].competitors.find(c => c.homeAway === "away")
                     game.homeScore = homeTeam.score
@@ -33,7 +33,7 @@ export const convertTableData = (oddsData,bookie,liveData)=>{
                 }
             })
         }
-        console.log(game)
+
         newOddsData.push(game)
     })
 

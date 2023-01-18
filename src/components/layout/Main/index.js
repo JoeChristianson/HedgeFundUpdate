@@ -4,8 +4,7 @@ import OddsTable from "../../elements/Table"
 import SimpleInput from "../../elements/SimpleInput"
 import { testOddsAPIKey } from "../../../utils/oddsAPI"
 import "./index.css"
-import { getLiveData } from "../../../utils/getLiveData"
-import { getBookies } from "../../../utils/getBookies"
+
 
 const Main = ()=>{
     const {setBookies,oddsAPIKey,setOddsAPIKey,liveData,oddsData,setCurrentBookie,bookies}=useContext(Context)

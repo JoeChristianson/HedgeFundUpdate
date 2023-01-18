@@ -25,4 +25,18 @@ tbody tr:nth-child(odd){
 
 .name-and-logo img{
     height: 40px;
+    margin:auto
+
+}
+
+.name-and-logo img{
+    padding-right:1rem;
+}
+
+.border-left{
+    border-left:2px solid grey;
+}
+
+.center{
+    text-align: center;
 }

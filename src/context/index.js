@@ -1,4 +1,4 @@
-import {createContext,useState} from "react"
+import {createContext,useEffect,useState} from "react"
 import { oddsAPIData,demoLiveData } from "../demo/data"
 import { getOddsAPIData } from "../utils/oddsAPI"
 import {getBookies} from "../utils/getBookies"
@@ -10,8 +10,16 @@ export const Context = createContext()
 export function ContextProvider({children}){
 
 // For Leagues
-   const leagues = [{value:"nfl",text:"NFL",oddsAPIKey:"americanfootball_nfl",espnSport:"football",espnLeague:"nfl"},{value:"ncaaf",text:"NCAAF",oddsAPIKey:"americanfootball_ncaaf",espnSport:"football",espnLeague:"college-football"},{value:"nba",oddsAPIKey:"basketball_nba",text:"NBA",espnSport:"basketball",espnLeague:"nba"}]
-   const [currentLeague,setCurrentLeague] = useState(leagues.find(l=>l.value==="nfl"))
+   const leagues = [
+    {value:"nfl",text:"NFL",oddsAPIKey:"americanfootball_nfl",espnSport:"football",espnLeague:"nfl"},
+    // {value:"ncaaf",text:"NCAAF",oddsAPIKey:"americanfootball_ncaaf",espnSport:"football",espnLeague:"college-football"},
+    // {value:"nba",oddsAPIKey:"basketball_nba",text:"NBA",espnSport:"basketball",espnLeague:"nba"},
+    {value:"ncaab",oddsAPIKey:"basketball_ncaab",text:"NCAAB",espnSport:"basketball",espnLeague:"mens-college-basketball"},
+    {value:"nhl",oddsAPIKey:"icehockey_nhl",text:"NHL",espnSport:"hockey",espnLeague:"nhl"}
+]
+
+    const storedLeague = localStorage.getItem("hf_league")
+   const [currentLeague,setCurrentLeague] = useState(leagues.find(l=>l.value===storedLeague))
 
 // For Bookies
     const [bookies,setBookies] = useState()
@@ -51,6 +59,38 @@ export function ContextProvider({children}){
         const liveData = await getLiveData(currentLeague.espnSport,currentLeague.espnLeague)
         setLiveData(liveData)
     }
+
+    useEffect(()=>{
+        localStorage.setItem("hf_league",currentLeague.value)
+    },[currentLeague])
+
+    useEffect(()=>{
+        if(!bookies){
+            return
+        }
+        const defaultBookie = JSON.parse(localStorage.getItem("hf_default_bookies"))[currentLeague.value]
+        setCurrentBookie(bookies.find(b=>b.value===defaultBookie))
+    },[bookies])
+
+    useEffect(()=>{
+        if(!currentLeague||!currentBookie){
+            return
+        }
+        const defaultBookies = JSON.parse(localStorage.getItem("hf_default_bookies"))
+        defaultBookies[currentLeague.value] = currentBookie.value
+        localStorage.setItem("hf_default_bookies",JSON.stringify(defaultBookies))
+    },[currentBookie])
+
+    useState(()=>{
+        const defaultBookies = JSON.parse(localStorage.getItem("hf_default_bookies"))||{}
+        leagues.forEach(league=>{
+            if(!defaultBookies[league.value]){
+                defaultBookies[league.value] = ""
+            }
+        })
+        localStorage.setItem("hf_default_bookies",JSON.stringify(defaultBookies))
+    },[])
+
 
     return(
         <Context.Provider value={{refreshOdds,liveData,setLiveData,leagues,currentLeague,setCurrentLeague,bookies,setBookies,currentBookie,setCurrentBookie,intervals,currentInterval,setCurrentInterval,oddsAPIKey,setOddsAPIKey,oddsData,setOddsData,lastRefreshed,setlastRefreshed,refreshOdds}}>
